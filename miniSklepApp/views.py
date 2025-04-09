@@ -9,11 +9,10 @@ from django.shortcuts import get_object_or_404
 
 
 def index(request):
-    # Pobieramy wszystkie produkty do wyświetlenia
     products = Product.objects.all()
     return render(request, "index.html", {"products": products})
 
-# Widok do logowania
+
 def login_view(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -21,17 +20,16 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect("index")  # Po zalogowaniu wracamy na stronę główną
+            return redirect("index") 
     return render(request, "login.html")
 
-# Widok dla formularza dodawania produktów, dostępny tylko dla zalogowanych użytkowników
 @login_required
 def add_product(request):
     if request.method == "POST":
         form = ProductForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("index")  # Po dodaniu produktu wracamy na stronę główną
+            return redirect("index") 
     else:
         form = ProductForm()
     

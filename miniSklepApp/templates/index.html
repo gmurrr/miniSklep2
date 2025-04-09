@@ -19,13 +19,13 @@
             {% endfor %}
         </ul>
 
-        {% if not user.is_authenticated %}
-            <!-- Przycisk logowania, tylko jeśli użytkownik nie jest zalogowany -->
-            <a href="{% url 'login' %}" class="btn btn-primary mt-4">Zaloguj</a>
-        {% else %}
-            <!-- Przycisk dodawania produktu, tylko jeśli użytkownik jest zalogowany -->
+        {% if user.is_authenticated %}
             <a href="{% url 'add_product' %}" class="btn btn-success mt-4">Dodaj Produkt</a>
+            <a href="{% url 'logout' %}" class="btn btn-danger mt-4 ml-2">Wyloguj</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn btn-primary mt-4">Zaloguj</a>
         {% endif %}
+
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

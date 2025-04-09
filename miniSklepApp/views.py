@@ -3,6 +3,8 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from .models import Product
 from .forms import ProductForm
+from django.contrib.auth import logout
+
 
 def index(request):
     # Pobieramy wszystkie produkty do wyświetlenia
@@ -32,3 +34,7 @@ def add_product(request):
         form = ProductForm()
     
     return render(request, "add_product.html", {"form": form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('index')

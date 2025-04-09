@@ -1,22 +1,35 @@
-<!-- index.html -->
 <!DOCTYPE html>
-<html>
+<html lang="pl">
 <head>
-    <title>Dodaj Produkt</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produkty</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Dodaj Produkt</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Dodaj</button>
-    </form>
-    
-    <h2>Lista Produktów</h2>
-    <ul>
-        {% for product in products %}
-            <li>{{ product.product_name }} - {{ product.product_price }}</li>
-        {% endfor %}
-    </ul>
+    <div class="container mt-5">
+        <h1>Lista Produktów</h1>
+
+        <!-- Lista produktów -->
+        <ul class="list-group">
+            {% for product in products %}
+                <li class="list-group-item">
+                    {{ product.product_name }} - {{ product.product_price }}
+                </li>
+            {% endfor %}
+        </ul>
+
+        {% if not user.is_authenticated %}
+            <!-- Przycisk logowania, tylko jeśli użytkownik nie jest zalogowany -->
+            <a href="{% url 'login' %}" class="btn btn-primary mt-4">Zaloguj</a>
+        {% else %}
+            <!-- Przycisk dodawania produktu, tylko jeśli użytkownik jest zalogowany -->
+            <a href="{% url 'add_product' %}" class="btn btn-success mt-4">Dodaj Produkt</a>
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

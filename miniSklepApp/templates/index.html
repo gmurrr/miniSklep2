@@ -1,35 +1,43 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produkty</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Lista Produktów</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
-    <div class="container mt-5">
-        <h1>Lista Produktów</h1>
 
-        <!-- Lista produktów -->
-        <ul class="list-group">
-            {% for product in products %}
-                <li class="list-group-item">
-                    {{ product.product_name }} - {{ product.product_price }}
-                </li>
-            {% endfor %}
-        </ul>
-
+    <div class="navbar">
+        <h1>Produkty</h1>
         {% if user.is_authenticated %}
-            <a href="{% url 'add_product' %}" class="btn btn-success mt-4">Dodaj Produkt</a>
-            <a href="{% url 'logout' %}" class="btn btn-danger mt-4 ml-2">Wyloguj</a>
+            <a href="{% url 'logout' %}">Wyloguj</a>
         {% else %}
-            <a href="{% url 'login' %}" class="btn btn-primary mt-4">Zaloguj</a>
+            <a href="{% url 'login' %}">Zaloguj</a>
         {% endif %}
-
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <div class="container">
+        {% if user.is_authenticated %}
+            <a href="{% url 'add_product' %}" class="add-button">Dodaj Produkt</a>
+        {% endif %}
+
+        <ul>
+            {% for product in products %}
+                <li>
+                    {{ product.product_name }} - {{ product.product_price }}
+                    {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'delete_product' product.id %}" style="margin: 0;">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-button" onclick="return confirm('Czy na pewno usunąć?')">Usuń</button>
+                        </form>
+                    {% endif %}
+                </li>
+            {% empty %}
+                <li>Brak produktów w bazie.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
 </body>
 </html>

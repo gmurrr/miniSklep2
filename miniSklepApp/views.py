@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from .models import Product
 from .forms import ProductForm
 from django.contrib.auth import logout
+from django.shortcuts import get_object_or_404
+
 
 
 def index(request):
@@ -37,4 +39,10 @@ def add_product(request):
 
 def logout_view(request):
     logout(request)
+    return redirect('index')
+
+@login_required
+def delete_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    product.delete()
     return redirect('index')

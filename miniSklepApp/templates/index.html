@@ -1,0 +1,22 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dodaj Produkt</title>
+</head>
+<body>
+    <h1>Dodaj Produkt</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Dodaj</button>
+    </form>
+    
+    <h2>Lista Produktów</h2>
+    <ul>
+        {% for product in products %}
+            <li>{{ product.product_name }} - {{ product.product_price }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
